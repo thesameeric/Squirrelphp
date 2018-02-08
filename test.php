@@ -1,27 +1,65 @@
 <?php
 
-// Initializing and instantiating the class object.
-require('squirrel.php');
+// Initializine and instantiating the class object.
+require('squirrelv1.1.1.php');
 use squirrel\squirrel as squirrel;
-$sq = new squirrel();
 
-//connecting to a database named squirrel, using a username 'root' and no password.
+// Get instance of Squirell Database Object
+$sq = squirrel::getInstance();
+
+// Connect to database
 $sq->connect('squirrel', 'root', '');
-//Testing a database connection using if statement
-if($sq->connect('squirrel', 'root', '')){
-  echo "Connected successfully";
-}else{
-  echo "Databse Error! : unable to connect";
+$completedForm = array(
+    'firstname' => 'Osiwvime',
+    'lastname' => 'Okiti'
+  );
+
+/*
+  CRUD FUNCTONS USING SQUIRREL
+*/
+
+// Insert into Database
+// $insert = $sq->insert('names', $completedForm);
+// if ($insert){
+//   echo "Inserted";
+// } else {
+//   echo "An error occurred.";
+// }
+
+// Delete From database
+// $deleted = $sq->delete('names', 'id', '4');
+// if ($deleted) { 
+//   echo "Deleted.";
+// } else {
+//   echo "An error occurred.";
+// }
+
+// Update values in database
+// $update = $sq->update('names', 'id', '5', $completedForm);
+// if ($update) {
+//   echo "Updated!";
+// } else {
+//   echo "An error occurred.";
+// }
+
+// Select all from database
+$all = $sq->selectAll('names', 'ASC');
+if ($all) {
+  while ($row = $all->fetch(PDO::FETCH_OBJ)) {
+    echo $row->id . " " . $row->firstname .  " " . $row->lastname . "<br>";
+  }
 }
 
-//inserting into a database table called names
-//the data is passed as an array having a key value pair.
-//the key is the database table column name and the value is the value to be inserted.
-$data = array('firstname' => 'Okiti', 'lastname' => 'osivwi');
-$sq->insert('names', $data);
+// Select by id
+// $user = $sq->selectById('names', '5');
+// $row = $user->fetch(PDO::FETCH_OBJ);
+// echo "<br>";
+// echo $row->id . " " . $row->firstname .  " " . $row->lastname . "<br>";
 
-//we can also test if the operation was successfull by embending our code in an if statement.
-if($sq->insert('names', $data)){
-  echo "Inserted Successfully.";
-}
+// Select particlular row in database
+// $get_username = $sq->find('names', 'firstname', 'Daniel');
+// $row = $get_username->fetch(PDO::FETCH_OBJ);
+// $username = $row->firstname;
+// echo $username;
 
+?>
